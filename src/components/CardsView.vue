@@ -1,13 +1,19 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+const withZerosAsSuffix = (string: string, length: number) => {
+  const diff = Math.abs(string.length - length)
+  const suffix = [...Array(diff)].map(() => '0').join('')
+  return string + suffix
+}
+
 export default defineComponent({
   props: {
     name: {
       type: String,
       default: 'Janeeeee Appleseed',
     },
-    number: {
+    cardNumber: {
       type: String,
       default: '0000000000000000',
     },
@@ -22,42 +28,47 @@ export default defineComponent({
       },
     },
   },
+  methods: {
+    updateNumber: (cardNumber: string) =>
+      withZerosAsSuffix(cardNumber, 16)
+        .match(/.{1,4}/g)
+        ?.join(' '),
+    updateExpirationDate: (month: string, year: string) =>
+      `${withZerosAsSuffix(month, 2)}/${withZerosAsSuffix(year, 2)}`,
+    updateCVC: (cvc: string) => withZerosAsSuffix(cvc, 3),
+  },
 })
 </script>
+
 <template>
   <div class="cards-view">
     <div class="card" id="card-background">
-      <span id="cvc">{{ cvc }}</span>
+      <span id="cvc">{{ updateCVC(cvc) }}</span>
     </div>
     <div class="card" id="card-foreground">
       <div></div>
-      <span id="number">{{ number.match(/.{1,4}/g)?.join(' ') }}</span>
+      <span id="number">{{ updateNumber(cardNumber) }}</span>
       <span id="name">{{ name }}</span>
-      <span id="expiration-date"
-        >{{ expirationDate.month }}/{{ expirationDate.year }}</span
-      >
+      <span id="expiration-date">{{ updateExpirationDate(expirationDate.month, expirationDate.year) }}</span>
     </div>
   </div>
 </template>
+
 <style lang="css" scoped>
 .cards-view {
-  display: grid;
   color: white;
   font-size: 9px;
   font-weight: 500;
   position: relative;
   background-image: url('@/assets/bg-main-mobile.png');
   background-size: cover;
-  width: 100%;
-  /* height: 16rem; */
   height: clamp(16rem, calc(0.6 * 100vw), 340px);
-  place-content: center;
   filter: drop-shadow(0px 39px 60px rgb(0, 0, 0, 14.25%));
 }
 
 #card-foreground {
   background-image: url('@/assets/bg-card-front.png');
-  left: 4.27%;
+  left: calc(50% - 187.5px + 16px);
   top: 7.5rem;
 }
 
@@ -74,7 +85,7 @@ export default defineComponent({
 
 #card-background {
   background-image: url('@/assets/bg-card-back.png');
-  right: 4.27%;
+  right: calc(50% - 187.5px + 16px);
   top: 2rem;
 }
 
@@ -90,15 +101,20 @@ export default defineComponent({
   position: absolute;
   top: 50%;
   right: 10%;
+  line-height: 11px;
   translate: 0 -50%;
 }
 
 #number {
   font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 2.2px;
   top: 84.6px;
 }
 
 #name {
+  font-weight: 500;
+  letter-spacing: 1.29px;
   top: 124.6px;
 }
 
@@ -112,5 +128,55 @@ export default defineComponent({
   width: clamp(286px, 77%, 447px);
   position: absolute;
   background-size: cover;
+}
+
+@media screen and (min-width: 580px) {
+  .card {
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+
+  #card-foreground:after {
+    top: 28px;
+    left: 32px;
+    height: 47px;
+    width: 84px;
+  }
+
+  #number {
+    left: 32px;
+    top: 139px;
+    font-size: 1.75rem;
+    letter-spacing: 3.42px;
+  }
+
+  #name {
+    left: 32px;
+    top: 200.5px;
+  }
+
+  #expiration-date {
+    top: 200.5px;
+    right: 26.5px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .cards-view {
+    background-image: url('@/assets/bg-main-desktop.png');
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  #card-foreground {
+    top: calc(50% - 263px);
+    left: 10.25rem;
+  }
+
+  #card-background {
+    top: calc(50% + 19px);
+    left: 258px;
+  }
 }
 </style>
