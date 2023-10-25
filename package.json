@@ -5,7 +5,9 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "sass:watch": "sass --watch src/styles:dist/css"
+    "sass:watch": "sass --watch src/styles:dist/css",
+    "build": "NODE_ENV=production node esbuild.config.mjs",
+    "dev": "NODE_ENV=development node esbuild.config.mjs"
   },
   "keywords": [],
   "author": "",
