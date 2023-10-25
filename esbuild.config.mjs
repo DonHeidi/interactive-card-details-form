@@ -1,7 +1,7 @@
 import esbuild from 'esbuild'
 import { sassPlugin } from 'esbuild-sass-plugin'
 
-await esbuild.build({
+const config = {
   entryPoints: ['src/index.tsx', 'src/styles/index.scss'],
   outdir: 'dist',
   bundle: true,
@@ -9,4 +9,17 @@ await esbuild.build({
   platform: 'browser',
   sourcemap: true,
   plugins: [sassPlugin()],
-})
+}
+
+if (process.env.NODE_ENV === 'development') {
+  const ctx = await esbuild.context(config)
+  await ctx.watch()
+  ctx.serve({ port: 3000, servedir: './' }, () => {
+    console.log('server started')
+  })
+}
+
+if (process.env.NODE_ENV === 'production') {
+  config.minify = true
+  await esbuild.build(config)
+}
