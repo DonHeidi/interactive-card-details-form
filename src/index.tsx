@@ -1,10 +1,12 @@
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import React from 'react'
-
+import Layout from './components/Layout/index'
 console.log('Hallo Welt!')
 
 function App() {
-  return <div>Hallo Welt!</div>
+  return <Layout />
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+const container = document.getElementById('root')
+const root = createRoot(container!)
+root.render(<App />)
