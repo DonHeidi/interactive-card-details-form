@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import React from 'react'
-import Layout from './components/Layout/index'
+import Layout from './components/CardDetailsForm/index'
 console.log('Hallo Welt!')
 
 function App() {
