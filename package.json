@@ -19,6 +19,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "esbuild": "^0.19.5",
     "esbuild-sass-plugin": "^2.16.0",
+    "prettier": "^3.0.3",
     "sass": "^1.69.4",
     "typescript": "^5.2.2"
   },
