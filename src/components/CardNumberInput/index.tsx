@@ -2,12 +2,13 @@ import React, { ChangeEvent, useEffect, useRef } from 'react'
 
 type CardInputProps = {
   id?: string
+  name?: string
   value?: string
   className?: string
   onChange?: (value: string) => void
 }
 
-const CardInput = ({ id, value, className, onChange }: CardInputProps) => {
+const CardInput = ({ id, name, value, className, onChange }: CardInputProps) => {
   const ref = useRef<HTMLInputElement>(null)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +43,18 @@ const CardInput = ({ id, value, className, onChange }: CardInputProps) => {
     }
   }, [value])
 
-  return <input ref={ref} className={className} type="text" value={value} onChange={handleChange} maxLength={19} />
+  return (
+    <input
+      ref={ref}
+      id={id}
+      name={name}
+      className={className}
+      type="text"
+      value={value}
+      onChange={handleChange}
+      maxLength={19}
+    />
+  )
 }
 
 export default CardInput

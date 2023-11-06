@@ -5,8 +5,6 @@ import CardInput from '../CardNumberInput'
 
 let renderCount = 0
 
-const creditCardRegex = /^(\d\s*){16}$/
-
 type ExpirationDate = {
   month: string
   year: string
@@ -63,67 +61,87 @@ export default function Layout() {
       <CreditCard {...watch()} />
       <section>
         <form onSubmit={handleSubmit(onSubmit)} method="GET" className="card-form" noValidate>
-          <label htmlFor="cardholderName" className="card-form__label">
-            Cardholder Name
-          </label>
-          <input
-            id="cardholderName"
-            type="text"
-            className="card-form__input"
-            {...register('cardholderName', {
-              required: "Can't be blank",
-              pattern: {
-                value: /^[a-z ,.'-]+$/i,
-                message: 'Invalid name',
-              },
-            })}
-          />
-          <p className="card-form__message">{errors.cardholderName?.message}</p>
-          <label htmlFor="cardNumber" className="card-form__label">
-            Card Number
-          </label>
-          <Controller
-            name="cardNumber"
-            control={control}
-            defaultValue=""
-            rules={{ required: true }}
-            render={({ field: { onChange, value } }) => <CardInput value={value} onChange={onChange} />}
-          />
-          <p className="card-form__message">{errors.cardNumber?.message}</p>
-          <fieldset>
+          <div className="field row row--full">
+            <label htmlFor="cardholderName" className="card-form__label">
+              Cardholder Name
+            </label>
+            <input
+              id="cardholderName"
+              type="text"
+              className="card-form__input"
+              {...register('cardholderName', {
+                required: "Can't be blank",
+                pattern: {
+                  value: /^[a-z ,.'-]+$/i,
+                  message: 'Invalid name',
+                },
+              })}
+            />
+            <p className="card-form__message">{errors.cardholderName?.message}</p>
+          </div>
+          <div className="field row row--full">
+            <label htmlFor="cardNumber" className="card-form__label">
+              Card Number
+            </label>
+            <Controller
+              name="cardNumber"
+              control={control}
+              defaultValue=""
+              rules={{ required: true }}
+              render={({ field: { onChange, value } }) => (
+                <CardInput
+                  id="cardNumber"
+                  name="cardNumber"
+                  className="card-form__input"
+                  value={value}
+                  onChange={onChange}
+                />
+              )}
+            />
+            <p className="card-form__message">{errors.cardNumber?.message}</p>
+          </div>
+
+          <fieldset className="fieldset row row--half row--left">
             <legend className="card-form__label">Exp. Date (MM/YY)</legend>
-            <label htmlFor="expiration-date-month" className="card-form__label" hidden>
-              Month
-            </label>
-            <input
-              id="expiration-date-month"
-              type="text"
-              className="card-form__input"
-              {...register('expirationDate.month', { required: "Can't be blank" })}
-            />
-            <p className="card-form__message">{errors.expirationDate?.month?.message}</p>
-            <label htmlFor="expiration-date-year" className="card-form__label" hidden>
-              Year
-            </label>
-            <input
-              id="expiration-date-year"
-              type="text"
-              className="card-form__input"
-              {...register('expirationDate.year', { required: "Can't be blank" })}
-            />
-            <p className="card-form__message">{errors.expirationDate?.year?.message}</p>
+            <div className="field">
+              <label htmlFor="expiration-date-month" className="card-form__label" hidden>
+                Month
+              </label>
+              <input
+                id="expiration-date-month"
+                type="text"
+                className="card-form__input"
+                {...register('expirationDate.month', { required: "Can't be blank" })}
+              />
+              <p className="card-form__message">{errors.expirationDate?.month?.message}</p>
+            </div>
+            <div className="field">
+              <label htmlFor="expiration-date-year" className="card-form__label" hidden>
+                Year
+              </label>
+              <input
+                id="expiration-date-year"
+                type="text"
+                className="card-form__input"
+                {...register('expirationDate.year', { required: "Can't be blank" })}
+              />
+              <p className="card-form__message">{errors.expirationDate?.year?.message}</p>
+            </div>
           </fieldset>
-          <label htmlFor="cardCVC" className="card-form__label">
-            CVC
-          </label>
-          <input
-            id="cardCVC"
-            type="text"
-            className="card-form__input"
-            {...register('cvc', { required: "Can't be blank" })}
-          />
-          <p className="card-form__message">{errors.cvc?.message}</p>
-          <button type="submit" className="btn-primary">
+          <div className="field row row--half row--right">
+            <label htmlFor="cardCVC" className="card-form__label">
+              CVC
+            </label>
+            <input
+              id="cardCVC"
+              type="text"
+              className="card-form__input"
+              {...register('cvc', { required: "Can't be blank" })}
+            />
+            <p className="card-form__message">{errors.cvc?.message}</p>
+          </div>
+
+          <button type="submit" className="btn-primary row row--full">
             Confirm
           </button>
         </form>
