@@ -4,27 +4,6 @@ import CardInput from '../CardNumberInput'
 import CreditCard from '../preview/CreditCard'
 import { Card } from '../types'
 
-let renderCount = 0
-
-function CardFront({ cardholderName = '', cardNumber, expirationDate }: Card) {
-  return (
-    <div className="card card__front">
-      <div>{cardholderName}</div>
-      <div>{cardNumber}</div>
-      <div>{expirationDate?.month}</div>
-      <div>{expirationDate?.year}</div>
-    </div>
-  )
-}
-
-function CardBack({ cvc }: Card) {
-  return (
-    <div className="card card__back">
-      <div>{cvc}</div>
-    </div>
-  )
-}
-
 export default function Layout() {
   const form = useForm<Card>()
   const { register, control, handleSubmit, formState, watch } = form
@@ -33,8 +12,6 @@ export default function Layout() {
   const onSubmit = (data: Card) => {
     console.log('Form submitted', data)
   }
-
-  renderCount++
   return (
     <main>
       <CreditCard {...watch()} />
@@ -52,7 +29,6 @@ export default function Layout() {
                 placeholder="e.g. Jane Appleseed"
                 {...register('cardholderName', {
                   required: "Can't be blank",
-
                   pattern: {
                     value: /^[a-z ,.'-]+$/i,
                     message: 'Invalid name',
