@@ -1,21 +1,10 @@
-import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { DevTool } from '@hookform/devtools'
 import CardInput from '../CardNumberInput'
+import CreditCard from '../preview/CreditCard'
+import { Card } from '../types'
 
 let renderCount = 0
-
-type ExpirationDate = {
-  month: string
-  year: string
-}
-
-type Card = {
-  cardholderName?: string
-  cardNumber?: string
-  expirationDate?: ExpirationDate
-  cvc?: string
-}
 
 function CardFront({ cardholderName = '', cardNumber, expirationDate }: Card) {
   return (
@@ -36,15 +25,6 @@ function CardBack({ cvc }: Card) {
   )
 }
 
-function CreditCard({ cardholderName, cardNumber, expirationDate, cvc }: Card) {
-  return (
-    <div className="credit-card">
-      <CardFront cardholderName={cardholderName} cardNumber={cardNumber} expirationDate={expirationDate} />
-      <CardBack cvc={cvc} />
-    </div>
-  )
-}
-
 export default function Layout() {
   const form = useForm<Card>()
   const { register, control, handleSubmit, formState, watch } = form
@@ -57,90 +37,104 @@ export default function Layout() {
   renderCount++
   return (
     <main>
-      <h1>React Hook Form DevTools {renderCount / 2}</h1>
       <CreditCard {...watch()} />
       <section>
         <form onSubmit={handleSubmit(onSubmit)} method="GET" className="card-form" noValidate>
           <div className="field row row--full">
-            <label htmlFor="cardholderName" className="card-form__label">
+            <label htmlFor="cardholderName" className="text body md dark">
               Cardholder Name
             </label>
-            <input
-              id="cardholderName"
-              type="text"
-              className="card-form__input"
-              {...register('cardholderName', {
-                required: "Can't be blank",
-                pattern: {
-                  value: /^[a-z ,.'-]+$/i,
-                  message: 'Invalid name',
-                },
-              })}
-            />
+            <div className="card-form__input-wrapper">
+              <input
+                id="cardholderName"
+                type="text"
+                className="card-form__input placeholder"
+                placeholder="e.g. Jane Appleseed"
+                {...register('cardholderName', {
+                  required: "Can't be blank",
+
+                  pattern: {
+                    value: /^[a-z ,.'-]+$/i,
+                    message: 'Invalid name',
+                  },
+                })}
+              />
+            </div>
             <p className="card-form__message">{errors.cardholderName?.message}</p>
           </div>
           <div className="field row row--full">
-            <label htmlFor="cardNumber" className="card-form__label">
+            <label htmlFor="cardNumber" className="text body md dark">
               Card Number
             </label>
-            <Controller
-              name="cardNumber"
-              control={control}
-              defaultValue=""
-              rules={{ required: true }}
-              render={({ field: { onChange, value } }) => (
-                <CardInput
-                  id="cardNumber"
-                  name="cardNumber"
-                  className="card-form__input"
-                  value={value}
-                  onChange={onChange}
-                />
-              )}
-            />
+            <div className="card-form__input-wrapper">
+              <Controller
+                name="cardNumber"
+                control={control}
+                defaultValue=""
+                rules={{ required: true }}
+                render={({ field: { onChange, value } }) => (
+                  <CardInput
+                    id="cardNumber"
+                    name="cardNumber"
+                    className="card-form__input placeholder"
+                    placeholder="e.g. 12034 5678 9123 0000"
+                    value={value}
+                    onChange={onChange}
+                  />
+                )}
+              />
+            </div>
             <p className="card-form__message">{errors.cardNumber?.message}</p>
           </div>
 
           <fieldset className="fieldset row row--half row--left">
-            <legend className="card-form__label">Exp. Date (MM/YY)</legend>
-            <div className="field">
-              <label htmlFor="expiration-date-month" className="card-form__label" hidden>
+            <legend className="text body text--md">Exp. Date (MM/YY)</legend>
+            <div>
+              <label htmlFor="expiration-date-month" className="text body md dark" hidden>
                 Month
               </label>
-              <input
-                id="expiration-date-month"
-                type="text"
-                className="card-form__input"
-                {...register('expirationDate.month', { required: "Can't be blank" })}
-              />
+              <div className="card-form__input-wrapper">
+                <input
+                  id="expiration-date-month"
+                  type="text"
+                  className="card-form__input placeholder"
+                  placeholder="MM"
+                  {...register('expirationDate.month', { required: "Can't be blank" })}
+                />
+              </div>{' '}
               <p className="card-form__message">{errors.expirationDate?.month?.message}</p>
             </div>
-            <div className="field">
-              <label htmlFor="expiration-date-year" className="card-form__label" hidden>
+            <div className="">
+              <label htmlFor="expiration-date-year" className="text body md dark" hidden>
                 Year
               </label>
-              <input
-                id="expiration-date-year"
-                type="text"
-                className="card-form__input"
-                {...register('expirationDate.year', { required: "Can't be blank" })}
-              />
+              <div className="card-form__input-wrapper">
+                <input
+                  id="expiration-date-year"
+                  type="text"
+                  className="card-form__input placeholder"
+                  placeholder="YY"
+                  {...register('expirationDate.year', { required: "Can't be blank" })}
+                />
+              </div>
               <p className="card-form__message">{errors.expirationDate?.year?.message}</p>
             </div>
           </fieldset>
           <div className="field row row--half row--right">
-            <label htmlFor="cardCVC" className="card-form__label">
+            <label htmlFor="cardCVC" className="text body md dark">
               CVC
             </label>
-            <input
-              id="cardCVC"
-              type="text"
-              className="card-form__input"
-              {...register('cvc', { required: "Can't be blank" })}
-            />
+            <div className="card-form__input-wrapper">
+              <input
+                id="cardCVC"
+                type="text"
+                className="card-form__input placeholder"
+                placeholder="e.g. 123"
+                {...register('cvc', { required: "Can't be blank" })}
+              />
+            </div>
             <p className="card-form__message">{errors.cvc?.message}</p>
           </div>
-
           <button type="submit" className="btn-primary row row--full">
             Confirm
           </button>

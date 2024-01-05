@@ -5,10 +5,11 @@ type CardInputProps = {
   name?: string
   value?: string
   className?: string
+  placeholder?: string
   onChange?: (value: string) => void
 }
 
-const CardInput = ({ id, name, value, className, onChange }: CardInputProps) => {
+const CardInput = ({ id, name, value, className, placeholder, onChange }: CardInputProps) => {
   const ref = useRef<HTMLInputElement>(null)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +50,7 @@ const CardInput = ({ id, name, value, className, onChange }: CardInputProps) => 
       id={id}
       name={name}
       className={className}
+      placeholder={placeholder}
       type="text"
       value={value}
       onChange={handleChange}
