@@ -1,3 +1,7 @@
+'use strict'
+
+import './styles/index.scss'
+
 import { createRoot } from 'react-dom/client'
 import { StrictMode } from 'react'
 import Layout from './components/CardDetailsForm/index'
