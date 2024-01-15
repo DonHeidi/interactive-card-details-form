@@ -52,7 +52,7 @@ export default function Layout() {
                     id="cardNumber"
                     name="cardNumber"
                     className="card-form__input"
-                    placeholder="e.g. 12034 5678 9123 0000"
+                    placeholder="e.g. 1234 5678 9123 0000"
                     value={value}
                     onChange={onChange}
                   />
@@ -70,8 +70,12 @@ export default function Layout() {
                 id="expirationDate.month"
                 label="Month"
                 placeholder="MM"
+                maxLength={2}
                 hideLabel
-                {...register('expirationDate.month', { required: "Can't be blank", max: 2 })}
+                {...register('expirationDate.month', {
+                  required: "Can't be blank",
+                  pattern: { value: /^[0-9]{}$/i, message: 'Wrong format: numbers only' },
+                })}
               />
             </div>
             <div className="">
@@ -80,8 +84,12 @@ export default function Layout() {
                 id="expirationDate.year"
                 label="Year"
                 placeholder="YY"
+                maxLength={2}
                 hideLabel
-                {...register('expirationDate.year', { required: "Can't be blank" })}
+                {...register('expirationDate.year', {
+                  required: "Can't be blank",
+                  pattern: { value: /^[0-9]{}$/i, message: 'Wrong format: numbers only' },
+                })}
               />
             </div>
           </fieldset>
@@ -90,8 +98,12 @@ export default function Layout() {
               control={control}
               id="cvc"
               label="CVC"
+              maxLength={3}
               placeholder="e.g. 123"
-              {...register('cvc', { required: "Can't be blank" })}
+              {...register('cvc', {
+                required: "Can't be blank",
+                pattern: { value: /^[0-9]{}$/i, message: 'Wrong format: numbers only' },
+              })}
             />
           </div>
           <button

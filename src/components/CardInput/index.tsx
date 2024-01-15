@@ -11,6 +11,8 @@ type CardInputProps = {
   placeholder: string
   /** Whether to hide the label (optional) */
   hideLabel?: boolean
+
+  maxLength?: number
 }
 
 /**
@@ -41,6 +43,7 @@ const CardInput = forwardRef<HTMLInputElement, UseControllerProps<Card> & CardIn
           type="text"
           className="card-form__input"
           placeholder={props.placeholder}
+          maxLength={props.maxLength}
           {...field}
           value={value}
           ref={field.ref}
