@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef } from 'react'
+import { ChangeEvent, useEffect, useRef } from 'react'
 
 type CardInputProps = {
   id?: string
@@ -9,7 +9,8 @@ type CardInputProps = {
   onChange?: (value: string) => void
 }
 
-const CardInput = ({ id, name, value, className, placeholder, onChange }: CardInputProps) => {
+const CardNumberInput = ({ id, name, value, className, placeholder, onChange }: CardInputProps) => {
+  // the reference is needed to set the cursor position
   const ref = useRef<HTMLInputElement>(null)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +18,7 @@ const CardInput = ({ id, name, value, className, placeholder, onChange }: CardIn
     let cursorPosition = ref.current?.selectionStart || 0
     const previousLength = value.length
     const formattedValue = value
-      .replace(/\D/g, '') // Remove all non-numeric characters
+      //.replace(/\D/g, '') // Remove all non-numeric characters
       .replace(/(\d{4})(?=\d)/g, '$1 ') // Add space after every 4 digits, only if followed by another digit
       .trim() // Remove any leading and trailing whitespaces
       .substring(0, 19) // Limit to 16 digits plus 3 spaces for the formatting
@@ -59,4 +60,4 @@ const CardInput = ({ id, name, value, className, placeholder, onChange }: CardIn
   )
 }
 
-export default CardInput
+export default CardNumberInput
