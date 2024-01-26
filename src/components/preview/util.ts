@@ -6,7 +6,11 @@
  * @example
  * createDisplayValue(16, '1234') // returns '1234000000000000'
  */
-export function createDisplayValue(length: number, origin?: string): string {
+export function createDisplayValue(length: number, origin?: string, ignoreWhiteSpace: boolean = true): string {
+  if (ignoreWhiteSpace) {
+    origin = origin?.replace(/\s/g, '')
+  }
+
   const placeHolderLength = length - (origin?.length || 0)
   const displayValue = (origin || '') + Array.from({ length: placeHolderLength }, () => '0').join('')
   return displayValue

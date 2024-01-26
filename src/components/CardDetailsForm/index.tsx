@@ -1,4 +1,4 @@
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { DevTool } from '@hookform/devtools'
 import CardNumberInput from '../CardNumberInput'
 import CreditCard from '../preview/CreditCard'
@@ -7,8 +7,7 @@ import CardInput from '../CardInput'
 
 export default function Layout() {
   const form = useForm<Card>()
-  const { register, control, handleSubmit, formState, watch } = form
-  const { errors } = formState
+  const { register, control, handleSubmit, watch } = form
 
   const onSubmit = (data: Card) => {
     console.log('Form submitted', data)
@@ -35,31 +34,16 @@ export default function Layout() {
             />
           </div>
           <div className="field row row--full">
-            <label htmlFor="cardNumber" className="text body md dark">
-              Card Number
-            </label>
-            <div className="card-form__input-wrapper">
-              <Controller
-                name="cardNumber"
-                control={control}
-                defaultValue=""
-                rules={{
-                  required: "Can't be blank",
-                  pattern: { value: /^[0-9]{}$/i, message: 'Wrong format: numbers only' },
-                }}
-                render={({ field: { onChange, value } }) => (
-                  <CardNumberInput
-                    id="cardNumber"
-                    name="cardNumber"
-                    className="card-form__input"
-                    placeholder="e.g. 1234 5678 9123 0000"
-                    value={value}
-                    onChange={onChange}
-                  />
-                )}
-              />
-            </div>
-            <p className="card-form__message">{errors.cardNumber?.message}</p>
+            <CardNumberInput
+              id="cardNumber"
+              label="Card Number"
+              control={control}
+              placeholder="e.g. 1234 5678 9123 0000"
+              {...register('cardNumber', {
+                required: "Can't be blank",
+                pattern: { value: /^[0-9]{}$/i, message: 'Wrong format: numbers only' },
+              })}
+            />
           </div>
 
           <fieldset className="fieldset row row--half row--left">
@@ -78,7 +62,7 @@ export default function Layout() {
                 })}
               />
             </div>
-            <div className="">
+            <div>
               <CardInput
                 control={control}
                 id="expirationDate.year"
