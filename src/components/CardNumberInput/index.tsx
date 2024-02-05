@@ -1,15 +1,13 @@
 import { ChangeEvent, forwardRef, useEffect, useRef } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 import { Card } from '../types'
+import ErrorMessage from '../ErrorMessage'
 
 type CardInputProps = {
   id?: string
-  //name?: string
-  //value?: string
   className?: string
   placeholder?: string
   label?: string
-  //onChange?: (value: string) => void
 }
 
 const CardNumberInput = forwardRef<HTMLInputElement, UseControllerProps<Card, 'cardNumber'> & CardInputProps>(
@@ -19,6 +17,9 @@ const CardNumberInput = forwardRef<HTMLInputElement, UseControllerProps<Card, 'c
     const refHTML = useRef<HTMLInputElement>(null)
     field.ref(refHTML)
 
+    const error = fieldState.error?.message ? true : false
+
+    // wrapping the onChange from react-hook-form to add the formatting
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       const { value } = event.target
       let cursorPosition = refHTML.current?.selectionStart || 0
@@ -38,6 +39,7 @@ const CardNumberInput = forwardRef<HTMLInputElement, UseControllerProps<Card, 'c
 
       field.onChange(formattedValue)
 
+      // placing the cursor in the right position
       setTimeout(() => {
         refHTML.current?.setSelectionRange(cursorPosition, cursorPosition)
       })
@@ -56,7 +58,7 @@ const CardNumberInput = forwardRef<HTMLInputElement, UseControllerProps<Card, 'c
         <label htmlFor={props.id} className="text body md dark">
           {props.label}
         </label>
-        <div className="card-form__input-wrapper">
+        <div className={`card-form__input-wrapper${error ? ' error' : ''}`}>
           <input
             id={props.id}
             className="card-form__input"
@@ -67,7 +69,7 @@ const CardNumberInput = forwardRef<HTMLInputElement, UseControllerProps<Card, 'c
             maxLength={19}
           />
         </div>
-        <p className="card-form__message">{fieldState.error?.message}</p>
+        <ErrorMessage>{fieldState.error?.message}</ErrorMessage>
       </>
     )
   },

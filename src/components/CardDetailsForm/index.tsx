@@ -41,7 +41,15 @@ export default function Layout() {
               placeholder="e.g. 1234 5678 9123 0000"
               {...register('cardNumber', {
                 required: "Can't be blank",
-                pattern: { value: /^[0-9]{}$/i, message: 'Wrong format: numbers only' },
+                pattern: { value: /^[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}$/i, message: 'Wrong format: numbers only' },
+                minLength: {
+                  value: 19,
+                  message: 'Wrong format: 16 numbers only',
+                },
+                maxLength: {
+                  value: 19,
+                  message: 'Wrong format: 16 numbers only',
+                },
               })}
             />
           </div>
@@ -58,7 +66,15 @@ export default function Layout() {
                 hideLabel
                 {...register('expirationDate.month', {
                   required: "Can't be blank",
-                  pattern: { value: /^[0-9]{}$/i, message: 'Wrong format: numbers only' },
+                  pattern: { value: /^[0-9]{3}$/i, message: 'Wrong format: numbers only' },
+                  minLength: {
+                    value: 2,
+                    message: 'Wrong format: 2 numbers only',
+                  },
+                  maxLength: {
+                    value: 2,
+                    message: 'Wrong format: 2 numbers only',
+                  },
                 })}
               />
             </div>
@@ -72,7 +88,15 @@ export default function Layout() {
                 hideLabel
                 {...register('expirationDate.year', {
                   required: "Can't be blank",
-                  pattern: { value: /^[0-9]{}$/i, message: 'Wrong format: numbers only' },
+                  pattern: { value: /^[0-9]{2}$/i, message: 'Wrong format: numbers only' },
+                  minLength: {
+                    value: 2,
+                    message: 'Wrong format: 2 numbers only',
+                  },
+                  maxLength: {
+                    value: 2,
+                    message: 'Wrong format: 2 numbers only',
+                  },
                 })}
               />
             </div>
@@ -86,7 +110,15 @@ export default function Layout() {
               placeholder="e.g. 123"
               {...register('cvc', {
                 required: "Can't be blank",
-                pattern: { value: /^[0-9]{}$/i, message: 'Wrong format: numbers only' },
+                pattern: { value: /^[0-9]{3}$/i, message: 'Wrong format: numbers only' },
+                minLength: {
+                  value: 3,
+                  message: 'Wrong format: 3 numbers only',
+                },
+                maxLength: {
+                  value: 3,
+                  message: 'Wrong format: 3 numbers only',
+                },
               })}
             />
           </div>

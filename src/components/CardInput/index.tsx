@@ -1,6 +1,7 @@
 import { UseControllerProps, useController } from 'react-hook-form'
 import { Card } from '../types'
 import { forwardRef } from 'react'
+import ErrorMessage from '../ErrorMessage'
 
 type CardInputProps = {
   /** Unique identifier for the input field */
@@ -32,12 +33,14 @@ const CardInput = forwardRef<HTMLInputElement, UseControllerProps<Card> & CardIn
     value = field.value ? field.value.toString() : ''
   }
 
+  const error = fieldState.error?.message ? true : false
+
   return (
     <>
       <label htmlFor={props.id} className="text body md dark" hidden={props.hideLabel}>
         {props.label}
       </label>
-      <div className="card-form__input-wrapper">
+      <div className={`card-form__input-wrapper${error ? ' error' : ''}`}>
         <input
           id={props.id}
           type="text"
@@ -49,7 +52,7 @@ const CardInput = forwardRef<HTMLInputElement, UseControllerProps<Card> & CardIn
           ref={field.ref}
         />
       </div>
-      <p className="card-form__message">{fieldState.error?.message}</p>
+      <ErrorMessage>{fieldState.error?.message}</ErrorMessage>
     </>
   )
 })
