@@ -12,7 +12,7 @@ type CardInputProps = {
 
 const CardNumberInput = forwardRef<HTMLInputElement, UseControllerProps<Card, 'cardNumber'> & CardInputProps>(
   (props, ref) => {
-    const { field, fieldState } = useController<Card, 'cardNumber'>(props)
+    const { field, fieldState } = useController<Card, 'cardNumber'>({ ...props, defaultValue: '' })
     // the reference is needed to set the cursor position
     const refHTML = useRef<HTMLInputElement>(null)
     field.ref(refHTML)
