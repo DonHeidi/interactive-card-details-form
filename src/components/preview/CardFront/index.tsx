@@ -13,12 +13,13 @@ export default function CardFront({ cardNumber, cardholderName, expirationDate }
   const monthDisplay = createDisplayValue(2, expirationDate?.month?.toString())
   const yearDisplay = createDisplayValue(2, expirationDate?.year?.toString())
   return (
-    <div>
-      <div>{cardholderDisplay}</div>
-      <div className="card-details__number">{numDisplay}</div>
-      <div>
+    <div className="card card--front rounded--md text md light">
+      <img className="card__logo" src="/images/card-logo.svg" alt="credit card logo" />
+      <span className="card__name">{cardholderDisplay}</span>
+      <span className="card__number">{numDisplay}</span>
+      <span className="card__expiration-date">
         {monthDisplay}/{yearDisplay}
-      </div>
+      </span>
     </div>
   )
 }
