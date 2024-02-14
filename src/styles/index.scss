@@ -25,6 +25,13 @@ input::placeholder {
 }
 
 .btn {
+  border: none;
+  cursor: pointer;
+  transition: transform 0.07s ease-in-out;
+  &:active,
+  &:focus {
+    transform: scale(0.95);
+  }
   &.btn--primary {
     padding-block: 15px;
     padding-inline: 0px;
