@@ -220,6 +220,7 @@ input::placeholder {
   background-position: center;
   background-image: var(--image);
   z-index: var(--z);
+  box-shadow: rgba(0, 0, 0, 14.25%) 0 39px 60px;
 
   * {
     position: absolute;
@@ -245,7 +246,7 @@ input::placeholder {
     }
   }
 
-  &__wrapper {
+  &__container {
     width: 100%;
     max-width: 381px;
     background-image: url('/images/bg-main-mobile.png');
