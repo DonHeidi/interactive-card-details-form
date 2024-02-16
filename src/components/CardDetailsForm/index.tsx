@@ -16,9 +16,9 @@ export default function Layout() {
   if (form.formState.isSubmitSuccessful) console.log('Form submitted', form.getValues())
 
   return (
-    <main>
+    <main className="container">
       <CreditCard {...watch()} />
-      <section>
+      <section className="card-form__container">
         {form.formState.isSubmitSuccessful && (
           <div className="card-form__success">
             <img src="/images/icon-complete.svg" className="card-form__success-icon" />
