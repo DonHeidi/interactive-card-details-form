@@ -2,9 +2,12 @@
   "name": "interactive-card-details-form",
   "version": "1.0.0",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DonHeidi/interactive-card-details-form.git"
+  },
   "type": "module",
   "scripts": {
-    "sass:watch": "sass --watch src/styles:dist/css",
     "build": "vite build",
     "dev": "vite",
     "preview": "vite preview"
