@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { ChangeEvent, forwardRef, useEffect, useRef } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 import { Card } from '../types'
@@ -10,48 +11,70 @@ type CardInputProps = {
   label?: string
 }
 
+interface ChangeEventWithInputType extends ChangeEvent<HTMLInputElement> {
+  nativeEvent: InputEvent
+}
+
+/**
+ * The card number input component
+ * @param props The input props
+ * @param ref The reference to the input
+ * @returns The card number input component
+ */
 const CardNumberInput = forwardRef<HTMLInputElement, UseControllerProps<Card, 'cardNumber'> & CardInputProps>(
-  (props, ref) => {
+  (props, _) => {
     const { field, fieldState } = useController<Card, 'cardNumber'>({ ...props, defaultValue: '' })
-    // the reference is needed to set the cursor position
     const refHTML = useRef<HTMLInputElement>(null)
-    field.ref(refHTML)
 
-    const error = fieldState.error?.message ? true : false
+    const [cursorPosition, setCursorPosition] = useState(0)
 
-    // wrapping the onChange from react-hook-form to add the formatting
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    function handleChange(event: ChangeEventWithInputType) {
       const { value } = event.target
-      let cursorPosition = refHTML.current?.selectionStart || 0
-      const previousLength = value.length
+
+      const breakPoints = [4, 9, 14]
+      const backBreakPoints: number[] = [5, 10, 15]
+      const currentCursor = event.currentTarget.selectionStart || 0
+
       const formattedValue = value
         .replace(/\D/g, '') // Remove all non-numeric characters
         .replace(/(\d{4})(?=\d)/g, '$1 ') // Add space after every 4 digits, only if followed by another digit
         .trim() // Remove any leading and trailing whitespaces
         .substring(0, 19) // Limit to 16 digits plus 3 spaces for the formatting
 
-      const newLength = formattedValue.length
-      if (newLength < previousLength) {
-        cursorPosition--
-      } else if (previousLength < newLength) {
-        cursorPosition += newLength - previousLength
-      }
-
       field.onChange(formattedValue)
 
-      // placing the cursor in the right position
-      setTimeout(() => {
-        refHTML.current?.setSelectionRange(cursorPosition, cursorPosition)
-      })
+      // TODO possibly need to handle mobile inputs as well.
+      // this code snippet needs to run after field.onChange as it updates the value and the cursor position.
+      switch (event.nativeEvent.inputType) {
+        case 'insertText':
+          if (breakPoints.includes(currentCursor)) {
+            setCursorPosition(currentCursor + 1)
+          } else {
+            setCursorPosition(currentCursor)
+          }
+          break
+        case 'deleteContentBackward':
+          if (backBreakPoints.includes(currentCursor)) {
+            setCursorPosition(currentCursor - 1)
+          } else {
+            setCursorPosition(currentCursor)
+          }
+          break
+        default:
+          setCursorPosition(currentCursor)
+          break
+      }
     }
 
+    // setting the cursor position
     useEffect(() => {
-      const val = (field.value as String) || ''
-
       if (refHTML.current) {
-        refHTML.current.setSelectionRange(val.length, val.length)
+        refHTML.current.selectionStart = cursorPosition
+        refHTML.current.selectionEnd = cursorPosition
       }
-    }, [field.value])
+    }, [cursorPosition])
+
+    const error = fieldState.error?.message ? true : false
 
     return (
       <>
@@ -67,6 +90,7 @@ const CardNumberInput = forwardRef<HTMLInputElement, UseControllerProps<Card, 'c
             {...field}
             onChange={handleChange}
             maxLength={19}
+            ref={refHTML}
           />
         </div>
         <ErrorMessage>{fieldState.error?.message}</ErrorMessage>
