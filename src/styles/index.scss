@@ -124,7 +124,6 @@ input::placeholder {
 
     &.sm {
       letter-spacing: 0px;
-      text-transform: none;
     }
 
     &.md {
@@ -133,18 +132,30 @@ input::placeholder {
     &.lg {
       font-size: 0.865rem;
       letter-spacing: 0.125rem;
+
+      @media screen and (min-width: $tablet) {
+        font-size: 14px;
+        letter-spacing: 2px;
+      }
     }
   }
 
   &.heading {
     &.lg {
-      font-size: 1.125rem;
-      letter-spacing: 0;
+      @media screen and (min-width: $tablet) {
+        font-size: 1.125rem;
+        letter-spacing: 0;
+      }
     }
 
     &.xl {
-      font-size: 1.75rem;
-      letter-spacing: 3.42px;
+      letter-spacing: 2.2px;
+      font-size: 18px;
+
+      @media screen and (min-width: $desktop) {
+        font-size: 1.75rem;
+        letter-spacing: 3.42px;
+      }
     }
   }
 }
@@ -331,25 +342,16 @@ input::placeholder {
   &__name {
     left: 19px;
     top: 80%;
-    letter-spacing: 1.29px;
-    font-size: 9px;
-    text-transform: uppercase;
   }
 
   &__number {
     left: 19px;
     top: 50%;
-    letter-spacing: 2.2px;
-    font-size: 18px;
-    text-transform: uppercase;
   }
 
   &__expiration-date {
     right: 19px;
     top: 80%;
-    letter-spacing: 1.29px;
-    font-size: 9px;
-    text-transform: uppercase;
   }
 
   &__cvc {
