@@ -1,11 +1,12 @@
 {
   "name": "interactive-card-details-form",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple form to enter credit card details. Built with React and Vite.",
   "repository": {
     "type": "git",
     "url": "https://github.com/DonHeidi/interactive-card-details-form.git"
   },
+  "packageManager": "pnpm@8.15.3",
   "type": "module",
   "scripts": {
     "build": "vite build",
@@ -13,8 +14,8 @@
     "preview": "vite preview"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Sebastian Heitmann <me@sebastian-heitmann.dev> (https://sebastian-heitmann.dev)",
+  "license": "UNLICENSED",
   "devDependencies": {
     "@types/node": "^20.8.8",
     "@types/react": "^18.2.31",
