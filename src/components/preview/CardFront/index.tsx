@@ -14,7 +14,7 @@ export default function CardFront({ cardNumber, cardholderName, expirationDate }
   const yearDisplay = createDisplayValue(2, expirationDate?.year?.toString())
   return (
     <div className="card card--front rounded--md text md light">
-      <img className="card__logo" src="/images/card-logo.svg" alt="credit card logo" />
+      <img className="card__logo" src="./images/card-logo.svg" alt="credit card logo" />
       <span className="card__name text body lg uppercase">{cardholderDisplay}</span>
       <span className="card__number text heading xl uppercase">{numDisplay}</span>
       <span className="card__expiration-date text body lg uppercase">
